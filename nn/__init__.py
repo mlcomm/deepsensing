@@ -1,2 +1,2 @@
 
-from network import sensing_network
+from nn.network import sensing_network
