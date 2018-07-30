@@ -33,3 +33,12 @@ def dataset(Xd, label_index = 0):
     Y_test = to_onehot(map(lambda x: label.index(Y[x][0]), test_idx))
 
     return X_train, Y_train, X_test, Y_test
+
+def dataset_load(filepath):
+    import pickle
+    [X_train, Y_train, X_test, Y_test] = pickle.load(open(filename,'rb'), encoding='latin1')
+    return [X_train, Y_train, X_test, Y_test]
+
+def dataset_save([X_train, Y_train, X_test, Y_test], filepath):
+    pickle.dump([X_train, Y_train, X_test, Y_test], file(filepath, "wb" ) )
+    
