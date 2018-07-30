@@ -47,12 +47,12 @@ def qpsk_awgn_generator(batch_size = 4500, EbN0s = [-10, -8]):
         while sampler_indx + vec_length < len(raw_output_vector) and vec_indx < nvecs_per_key:
             sampled_vector = raw_output_vector[sampler_indx:sampler_indx+vec_length]
             energy = np.sum((np.abs(sampled_vector)))
-            sampled_vector = sampled_vector / energy
+            #sampled_vector = sampled_vector / energy
             data[("busy", EbN0)][vec_indx, 0,:] = np.real(sampled_vector)
             data[("busy", EbN0)][vec_indx, 1,:] = np.imag(sampled_vector)
             sampled_noise_vector = raw_noise_vector[sampler_indx:sampler_indx+vec_length]
             energy = np.sum((np.abs(sampled_noise_vector)))
-            sampled_noise_vector = sampled_noise_vector / energy
+            #sampled_noise_vector = sampled_noise_vector / energy
             data[("idle", EbN0)][vec_indx, 0,:] = np.real(sampled_noise_vector)
             data[("idle", EbN0)][vec_indx, 1,:] = np.imag(sampled_noise_vector)
             sampler_indx += vec_length
