@@ -1,6 +1,4 @@
-def ed_power(dataset, EbN0):
-  Xd = dataset
-def cal_pd_pf(dataset, SNR, threshold, vec_length):
+def ed_power_range(dataset, EbN0):
     Xd = dataset
     X_busy = Xd[('busy', SNR)]
     X_idle = Xd[('idle', SNR)]
@@ -14,9 +12,26 @@ def cal_pd_pf(dataset, SNR, threshold, vec_length):
     for i in range(0, X_idle.shape[0]):
         x = X_idle[i]
         pidle[i] = np.sum(np.multiply(x, x))/vec_length
-        
-    print "busy power range ", [np.amin(pbusy), np.amax(pbusy)]
-    print "idle power range ", [np.amin(pidle), np.amax(pidle)]    
+    
+    Signal_Min, signal_Max = np.amin(pbusy), np.amax(pbusy)
+    Noise_Min, Noise_Max = np.amin(pidle), np.amax(pidle)
+    
+    return Signal_Min, signal_Max, Noise_Min, Noise_Max
+    
+def ed_pd_pf(dataset, SNR, threshold, vec_length):
+    Xd = dataset
+    X_busy = Xd[('busy', SNR)]
+    X_idle = Xd[('idle', SNR)]
+    
+    pbusy = np.zeros([X_busy.shape[0], 1])
+    for i in range(0, X_busy.shape[0]):
+        x = X_busy[i]
+        pbusy[i] = np.sum(np.multiply(x, x))/vec_length
+    
+    pidle = np.zeros([X_idle.shape[0], 1])
+    for i in range(0, X_idle.shape[0]):
+        x = X_idle[i]
+        pidle[i] = np.sum(np.multiply(x, x))/vec_length
     
     pd = 0
     pf = 0
@@ -30,7 +45,5 @@ def cal_pd_pf(dataset, SNR, threshold, vec_length):
 
     pd = pd/(len(pbusy) + 0.0)
     pf = pf/(len(pbusy) + 0.0)
-    print("pd ", pd)
-    print("pf ", pf)
     
     return [threshold, pd, pf]
