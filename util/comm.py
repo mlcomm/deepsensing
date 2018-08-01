@@ -32,3 +32,16 @@ def cal_roc(test_Y_hat):
         pfs.append(pf/(Y_test.shape[0]-pd_count + 0.0))
         
     return pds, pfs
+
+  def plot_roc(pds,pfs):
+    try:
+      import matplotlib.pyplot as plt
+      plt.plot( pfs, pds)
+      plt.xlabel('pfs')
+      plt.ylabel('pds')
+      plt.show()
+    except ImportError as error:
+      print(error.__class__.__name__ + ": " + error.message)
+      
+      
+      
