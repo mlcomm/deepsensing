@@ -1,7 +1,4 @@
 def cal_roc(test_Y_hat):
-'''
-  Return PD and PF for ROC cal
-'''
     pds = []
     pfs = []
     for j in range(0,100):
