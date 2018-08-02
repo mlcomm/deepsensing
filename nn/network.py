@@ -12,7 +12,7 @@ from keras.regularizers import *
 from keras.optimizers import adam
 import random, sys, keras
 
-def sensing_network(dr = 0.5, in_shp = [2, 128]):
+def deepsensing_network(in_shp = [2, 128], classes = ['busy' ,'idle']):
     K.set_image_dim_ordering('th')
     dr = 0.5
     model = models.Sequential()
@@ -30,5 +30,34 @@ def sensing_network(dr = 0.5, in_shp = [2, 128]):
     model.add(Activation('softmax'))
     model.add(Reshape([len(classes)]))
     model.compile(loss='categorical_crossentropy', optimizer='adam')
-    model.summary()
+    #model.summary()
+    return model
+
+def deepsensing_train(datafile, EbN0, in_shp=[2,128], classes=['busy', 'idle'], nb_epoch=100, batch_size=1000):
+    from util import dataset_load
+    [X_train, Y_train, X_test, Y_test] = dataset_load(datafile)
+    
+    model = deepsensing_network(in_shp, classes)
+    model_saved_path = 'QPSK.wts_' + str(EbN0) + '.h5'
+    
+    history = model.fit(X_train,
+                        Y_train,
+                        batch_size=batch_size,
+                        nb_epoch=nb_epoch,
+                        verbose=2,
+                        validation_data=(X_test, Y_test),
+        callbacks = [
+            keras.callbacks.ModelCheckpoint(model_saved_path, monitor='val_loss', verbose=0, save_best_only=True, mode='auto'),
+            keras.callbacks.EarlyStopping(monitor='val_loss', patience=5, verbose=0, mode='auto')
+        ])
+
+    model.load_weights(model_saved_path)
+    
+    X = [X_train, Y_train, X_test, Y_test]
+    
+    return model, model_saved_path, X
+
+def deepsensing_load_model(modelfile, in_shp=[2,128], classes=['busy', 'idle']):
+    model = deepsensing_network(in_shp, classes)
+    model.load_weights(modelfile)
     return model

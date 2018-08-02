@@ -1,4 +1,6 @@
-def cal_roc(test_Y_hat):
+import numpy as np
+
+def cal_roc(X_test, Y_test, test_Y_hat):
     pds = []
     pfs = []
     for j in range(0,100):
