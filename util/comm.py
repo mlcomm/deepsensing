@@ -30,18 +30,18 @@ def cal_roc(test_Y_hat):
         
     return pds, pfs
 
-  def plot_roc(pds,pfs):
+def plot_roc(pds, pfs):
     try:
-      import matplotlib.pyplot as plt
-      plt.plot( pfs, pds)
-      plt.xlabel('pfs')
-      plt.ylabel('pds')
-      plt.show()
+        import matplotlib.pyplot as plt
+        plt.plot( pfs, pds)
+        plt.xlabel('pfs')
+        plt.ylabel('pds')
+        plt.show()
     except ImportError as error:
-      print(error.__class__.__name__ + ": " + error.message)
+        print(error.__class__.__name__ + ": " + error.message)
       
       
- def cal_pd_pf(X_test, Y_test, test_Y_hat):
+def cal_pd_pf(X_test, Y_test, test_Y_hat):
     Y_predict = np.zeros([len(Y_test),2])
     for i in range(0,X_test.shape[0]):
         k = int(np.argmax(test_Y_hat[i,:]))
@@ -64,3 +64,4 @@ def cal_roc(test_Y_hat):
     pd = pd/(pd_count + 0.0)
     pf = pf/(Y_test.shape[0]-pd_count + 0.0)
     return pd, pf
+
