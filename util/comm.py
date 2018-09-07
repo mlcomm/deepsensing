@@ -4,7 +4,7 @@ def cal_roc(X_test, Y_test, test_Y_hat):
     pds = []
     pfs = []
     for j in range(0,100):
-        delta = 1/100*j
+        delta = 1.0/100*j
         Y_predict = np.zeros([len(Y_test),2])
         for i in range(0,X_test.shape[0]):
            # if test_Y_hat[i,1] -test_Y_hat[i,1] < delta:
